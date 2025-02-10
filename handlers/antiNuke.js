@@ -11,8 +11,13 @@ module.exports = (client) => {
     // إذا كان البوت هو من قام بالحذف، لا تتدخل
     if (member.user.bot) return;
 
-    // إذا كان الـ Owner هو من حذف القناة أو الرتبة، لا تقم بإعادتها
-    if (guild.ownerId === member.id) return;
+    // السماح للـ Owner أو أي عضو لديه دور Owner بحذف القنوات والرتب
+    const isOwnerOrHasRoleOwner =
+      member.id === guild.ownerId ||
+      member.roles.cache.some((role) => role.name.toLowerCase() === "owner");
+
+    // إذا كان الـ Owner أو شخص لديه دور "Owner" هو من قام بالحذف، لا تتدخل
+    if (isOwnerOrHasRoleOwner) return;
 
     // منع حذف القنوات إلا بواسطة البوت
     if (action === AuditLogEvent.ChannelDelete) {

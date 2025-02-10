@@ -1,7 +1,7 @@
 {
-  "totalTickets": 10,
+  "totalTickets": 11,
   "activeTickets": 7,
-  "resolvedTickets": 3,
+  "resolvedTickets": 4,
   "ticketHistory": [
     {
       "ticketId": "TICKET-1739228751824",
@@ -14,6 +14,17 @@
       "channelId": "1338647152749973575",
       "claimedBy": "hezzat",
       "transcript": "Evo Graph#5622 (١٢‏/٨‏/١٤٤٦ هـ، ١:٠٥:٥٢ ص): \nEvo Graph#5622 (١٢‏/٨‏/١٤٤٦ هـ، ١:٠٦:١٤ ص): "
+    },
+    {
+      "ticketId": "TICKET-1739231045420",
+      "userId": "700093890669183076",
+      "username": "hezzat",
+      "type": "الدعم الفني",
+      "status": "closed",
+      "createdAt": "2025-02-10T23:44:05.420Z",
+      "closedAt": "2025-02-10T23:44:10.015Z",
+      "channelId": "1338656772746907649",
+      "claimedBy": null
     }
   ]
 }
