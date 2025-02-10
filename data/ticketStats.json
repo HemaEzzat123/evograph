@@ -1,0 +1,19 @@
+{
+  "totalTickets": 10,
+  "activeTickets": 7,
+  "resolvedTickets": 3,
+  "ticketHistory": [
+    {
+      "ticketId": "TICKET-1739228751824",
+      "userId": "700093890669183076",
+      "username": "hezzat",
+      "type": "تصميم أخرى",
+      "status": "closed",
+      "createdAt": "2025-02-10T23:05:51.824Z",
+      "closedAt": "2025-02-10T23:06:17.705Z",
+      "channelId": "1338647152749973575",
+      "claimedBy": "hezzat",
+      "transcript": "Evo Graph#5622 (١٢‏/٨‏/١٤٤٦ هـ، ١:٠٥:٥٢ ص): \nEvo Graph#5622 (١٢‏/٨‏/١٤٤٦ هـ، ١:٠٦:١٤ ص): "
+    }
+  ]
+}
