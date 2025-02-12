@@ -18,7 +18,7 @@ const transcripts = new Collection();
 
 // Cooldown system
 const ticketCooldowns = new Collection();
-const COOLDOWN_TIME = 1000; // 3 دقائق
+const COOLDOWN_TIME = 3 * 60 * 1000; // 3 دقائق
 
 module.exports = (client) => {
   // Initialize ticket tracking
@@ -69,7 +69,7 @@ module.exports = (client) => {
         if (timeLeft > 0) {
           return interaction.reply({
             content: `⏰ يرجى الانتظار ${Math.ceil(
-              timeLeft / 1000
+              timeLeft / (60 * 1000)
             )} ثانية قبل إنشاء تذكرة جديدة.`,
             ephemeral: true,
           });
