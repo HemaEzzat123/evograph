@@ -50,10 +50,10 @@ module.exports = (client) => {
     const guild = interaction.guild;
     const user = interaction.user;
     const categoryIDs = {
-      "تصميم شعار": "1229477408420270203",
-      "تصميم بكج": "1229477897358676089",
-      "تصميم أخرى": "1229478088795230288",
-      "الدعم الفني": "1229478152884060270",
+      "Ticket Logo Design": "1229477408420270203",
+      "Ticket Package Design": "1229477897358676089",
+      "Ticket Other Design": "1229478088795230288",
+      "Ticket Support": "1229478152884060270",
     };
 
     const supportRoleId = "1229411562985492556";
