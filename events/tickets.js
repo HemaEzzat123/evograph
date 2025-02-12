@@ -18,7 +18,7 @@ const transcripts = new Collection();
 
 // Cooldown system
 const ticketCooldowns = new Collection();
-const COOLDOWN_TIME = 3 * 60 * 1000; // 3 دقائق
+const COOLDOWN_TIME = 1000; // 3 دقائق
 
 module.exports = (client) => {
   // Initialize ticket tracking
@@ -27,6 +27,12 @@ module.exports = (client) => {
     activeTickets: 0,
     resolvedTickets: 0,
     ticketHistory: [], // Array to store individual ticket data
+    categories: {
+      "تصميم شعار": 0,
+      "تصميم بكج": 0,
+      "تصميم أخرى": 0,
+      "الدعم الفني": 0,
+    },
   };
 
   // Load stats from file if exists
@@ -43,7 +49,13 @@ module.exports = (client) => {
 
     const guild = interaction.guild;
     const user = interaction.user;
-    const categoryID = "1338619897634361424";
+    const categoryIDs = {
+      "تصميم شعار": "1229477408420270203",
+      "تصميم بكج": "1229477897358676089",
+      "تصميم أخرى": "1229478088795230288",
+      "الدعم الفني": "1229478152884060270",
+    };
+
     const supportRoleId = "1229411562985492556";
 
     if (
@@ -56,8 +68,8 @@ module.exports = (client) => {
         if (timeLeft > 0) {
           return interaction.reply({
             content: `⏰ يرجى الانتظار ${Math.ceil(
-              timeLeft / (60 * 1000) // تحويل الوقت إلى دقائق
-            )} دقائق قبل إنشاء تذكرة جديدة.`,
+              timeLeft / 1000
+            )} ثانية قبل إنشاء تذكرة جديدة.`,
             ephemeral: true,
           });
         }
@@ -76,10 +88,16 @@ module.exports = (client) => {
       }
 
       const selectedOption = interaction.values[0];
+      const selectedCategoryID =
+        categoryIDs[selectedOption] || "1229478088795230288";
+
+      // Increment ticket number for the selected category
+      client.ticketStats.categories[selectedOption]++;
+      const ticketNumber = client.ticketStats.categories[selectedOption];
 
       // Create new ticket entry
       const ticketData = {
-        ticketId: `TICKET-${Date.now()}`,
+        ticketId: `${selectedOption}-${ticketNumber}`, // Include category name in ticket ID
         userId: user.id,
         username: user.tag,
         type: selectedOption,
@@ -100,11 +118,10 @@ module.exports = (client) => {
         )
         .setFooter({ text: "نظام التذاكر المتطور" });
 
-      const ticketNumber = client.ticketStats.totalTickets + 1;
       const ticketChannel = await guild.channels.create({
         name: `ticket-${ticketNumber}`,
         type: 0,
-        parent: categoryID,
+        parent: selectedCategoryID,
         permissionOverwrites: [
           {
             id: guild.id,
@@ -144,7 +161,7 @@ module.exports = (client) => {
       client.ticketStats.ticketHistory.push(ticketData);
 
       // Update statistics
-      client.ticketStats.totalTickets = ticketNumber;
+      client.ticketStats.totalTickets++;
       client.ticketStats.activeTickets++;
 
       // Save updated stats
@@ -259,16 +276,6 @@ module.exports = (client) => {
   client.on("ready", async () => {
     const ticketChannel = await client.channels.fetch("1338644980998344765");
     if (!ticketChannel) return;
-
-    // تحقق إذا كانت الرسالة قد أُرسلت من قبل
-    const messages = await ticketChannel.messages.fetch({ limit: 100 });
-    const existingMessage = messages.find(
-      (msg) =>
-        msg.embeds.length > 0 && msg.embeds[0].title === "🎫 نظام التذاكر"
-    );
-
-    // إذا كانت الرسالة موجودة، لا نقوم بإرسالها مرة أخرى
-    if (existingMessage) return;
 
     const menuEmbed = new EmbedBuilder()
       .setColor(Colors.Blue)
