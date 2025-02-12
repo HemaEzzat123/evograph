@@ -43,6 +43,7 @@ module.exports = (client) => {
     console.log("No existing ticket stats found. Creating new stats file...");
     saveStats(client.ticketStats);
   }
+  const closedCategoryID = "1229478621169844244"; // استبدل هذا بالـ ID الخاص بالتصنيف الذي تريد نقل القنوات إليه عند إغلاقها
 
   client.on("interactionCreate", async (interaction) => {
     if (!interaction.isStringSelectMenu() && !interaction.isButton()) return;
@@ -50,10 +51,10 @@ module.exports = (client) => {
     const guild = interaction.guild;
     const user = interaction.user;
     const categoryIDs = {
-      "Ticket Logo Design": "1229477408420270203",
-      "Ticket Package Design": "1229477897358676089",
-      "Ticket Other Design": "1229478088795230288",
-      "Ticket Support": "1229478152884060270",
+      "تصميم شعار": "1229477408420270203",
+      "تصميم بكج": "1229477897358676089",
+      "تصميم اخرى": "1229478088795230288",
+      "الدعم الفني": "1229478152884060270",
     };
 
     const supportRoleId = "1229411562985492556";
@@ -89,7 +90,7 @@ module.exports = (client) => {
 
       const selectedOption = interaction.values[0];
       const selectedCategoryID =
-        categoryIDs[selectedOption] || "1229478088795230288";
+        categoryIDs[selectedOption] || "1338619897634361424";
 
       // Increment ticket number for the selected category
       client.ticketStats.categories[selectedOption]++;
@@ -224,16 +225,26 @@ module.exports = (client) => {
           client.ticketStats.activeTickets--;
           client.ticketStats.resolvedTickets++;
 
+          await ticketChannel.setParent(closedCategoryID);
+          await ticketChannel.permissionOverwrites.edit(guild.id, {
+            [PermissionsBitField.Flags.SendMessages]: false, // تعطيل الكتابة
+            [PermissionsBitField.Flags.ViewChannel]: true, // السماح بالمشاهدة
+          });
           // Save updated stats
           saveStats(client.ticketStats);
 
           await interaction.reply({ embeds: [closeEmbed] });
-          setTimeout(() => ticketChannel.delete(), 5000);
+          // setTimeout(() => ticketChannel.delete(), 5000);
           break;
 
         case "claim_ticket":
           const supporter = interaction.member;
-
+          if (!supporter.roles.cache.has(supportRoleId)) {
+            return interaction.reply({
+              content: "❌ أنت لا تملك صلاحية استلام هذه التذكرة.",
+              ephemeral: true,
+            });
+          }
           // Update ticket data
           ticketData.claimedBy = supporter.user.tag;
           saveStats(client.ticketStats);
