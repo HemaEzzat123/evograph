@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { Client, GatewayIntentBits } = require("discord.js");
+const express = require("express");
 
 const client = new Client({
   intents: [
@@ -8,6 +9,7 @@ const client = new Client({
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildModeration,
+    GatewayIntentBits.GuildVoiceStates, // لضمان استقبال أحداث الصوت
   ],
 });
 
@@ -23,8 +25,22 @@ require("./events/welcome")(client);
 require("./events/verify")(client);
 require("./events/tickets")(client);
 
+// تحميل ملف الصوت
+require("./voice")(client);
+
 client.once("ready", () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
 });
 
+// تشغيل السيرفر للحفاظ على عمل البوت على Railway
+const app = express();
+const PORT = process.env.PORT || 2000;
+app.get("/", (req, res) => {
+  res.send("✅ Bot is running...");
+});
+app.listen(PORT, () => {
+  console.log(`🌍 Server is running on port ${PORT}`);
+});
+
+// تسجيل الدخول
 client.login(process.env.TOKEN);
