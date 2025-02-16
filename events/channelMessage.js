@@ -1,5 +1,4 @@
 module.exports = (client) => {
-  // قائمة الباقات والأسعار
   const packages = {
     "3D Super Cinematic": "350$",
     "Super Extra": "300$",
@@ -21,7 +20,6 @@ module.exports = (client) => {
   client.on("messageCreate", async (message) => {
     if (message.author.bot || !message.guild) return;
 
-    // عند كتابة !packages سيتم إرسال القائمة
     if (message.content === "!packages") {
       const packageList = Object.keys(packages)
         .map((pkg) => `📦 **${pkg}**`)
@@ -32,11 +30,22 @@ module.exports = (client) => {
       );
     }
 
-    // التحقق مما إذا كان المستخدم كتب اسم باقة لمعرفة سعرها
     if (packages[message.content]) {
-      await message.reply(
-        ` ** ${message.content} = ${packages[message.content]}** 💰`
-      );
+      message.author
+        .send(`**${message.content} = ${packages[message.content]}** 💰 `)
+        .then(() => {
+          // حذف رسالة العميل بعد أن يتم إرسال السعر له
+          message.delete().catch(() => {});
+        })
+        .catch(() => {
+          message
+            .reply(
+              "❌ لا يمكنني إرسال رسالة خاصة لك، تأكد من تفعيل الرسائل الخاصة."
+            )
+            .then((msg) => {
+              setTimeout(() => msg.delete(), 5000); // حذف رد البوت بعد 5 ثوانٍ
+            });
+        });
     }
   });
 };

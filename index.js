@@ -19,6 +19,7 @@ require("./handlers/antiLinks")(client);
 require("./handlers/antiNuke")(client);
 require("./handlers/raidProtection")(client);
 require("./handlers/botProtection")(client);
+require("./handlers/ownerProtection")(client);
 require("./events/autoReactMessages")(client);
 require("./events/allMemberMessage")(client);
 require("./events/welcome")(client);
