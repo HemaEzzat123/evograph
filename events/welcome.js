@@ -8,33 +8,20 @@ module.exports = (client) => {
     if (!channel) return;
 
     // إعداد Canvas
-    const canvas = Canvas.createCanvas(800, 400);
+    const canvas = Canvas.createCanvas(1104, 637);
     const ctx = canvas.getContext("2d");
 
     // تحميل الخلفية
     const background = await Canvas.loadImage(
       "https://probot.media/IzIdPPnqle.png"
     );
-
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-    // إعداد النصوص باستخدام خطوط النظام الافتراضية
-    ctx.font = "bold 40px Arial"; // استبدال "Poppins" بـ Arial
+    // إعداد النصوص
+    ctx.font = "bold 55px Arial";
     ctx.fillStyle = "#ffffff";
     ctx.textAlign = "center";
-    ctx.fillText(
-      `Welcome, ${member.user.username}!`,
-      canvas.width / 2,
-      canvas.height - 80
-    );
-
-    ctx.font = "italic 25px sans-serif"; // استبدال "Poppins" بـ sans-serif
-    ctx.fillStyle = "#dddddd";
-    ctx.fillText(
-      `We're glad to have you here!`,
-      canvas.width / 2,
-      canvas.height - 40
-    );
+    ctx.fillText(`${member.user.username}`, canvas.width / 2, 250);
 
     // تحميل صورة البروفايل
     const avatar = await Canvas.loadImage(
@@ -45,16 +32,16 @@ module.exports = (client) => {
     const avatarX = canvas.width / 2 - 75;
     const avatarY = 50;
     ctx.beginPath();
-    ctx.arc(avatarX + 75, avatarY + 75, 75, 0, Math.PI * 2, true);
+    ctx.arc(canvas.width / 2, 140, 70, 0, Math.PI * 2, true);
     ctx.closePath();
     ctx.clip();
-    ctx.drawImage(avatar, avatarX, avatarY, 150, 150);
+    ctx.drawImage(avatar, canvas.width / 2 - 70, 70, 140, 140);
 
-    // إضافة الإطار حول صورة البروفايل
-    ctx.lineWidth = 8;
+    // إعادة رسم الإطار حول صورة البروفايل
+    ctx.lineWidth = 6;
     ctx.strokeStyle = "#ffffff";
     ctx.beginPath();
-    ctx.arc(avatarX + 75, avatarY + 75, 75, 0, Math.PI * 2, true);
+    ctx.arc(canvas.width / 2, 140, 70, 0, Math.PI * 2, true);
     ctx.stroke();
 
     // تحويل الصورة إلى مرفق

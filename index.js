@@ -24,6 +24,8 @@ require("./events/allMemberMessage")(client);
 require("./events/welcome")(client);
 require("./events/verify")(client);
 require("./events/tickets")(client);
+require("./events/channelMessage")(client);
+require("./events/sendMessageInChannel")(client);
 
 // تحميل ملف الصوت
 require("./voice")(client);
@@ -41,6 +43,7 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`🌍 Server is running on port ${PORT}`);
 });
-
 // تسجيل الدخول
 client.login(process.env.TOKEN);
+
+module.exports = client;

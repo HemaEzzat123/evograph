@@ -19,6 +19,7 @@ module.exports = (client) => {
     "a7a",
     "احا",
     "اح",
+    "steamcommunity.com/gift",
   ];
 
   client.on("messageCreate", (message) => {

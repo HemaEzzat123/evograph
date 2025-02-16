@@ -1,14 +1,112 @@
 {
-  "totalTickets": 32,
-  "activeTickets": 14,
-  "resolvedTickets": 18,
+  "totalTickets": 41,
+  "activeTickets": 20,
+  "resolvedTickets": 21,
   "ticketHistory": [
-    
+    {
+      "ticketId": "تصميم شعار-7",
+      "userId": "700093890669183076",
+      "username": "hezzat",
+      "type": "تصميم شعار",
+      "status": "closed",
+      "createdAt": "2025-02-15T22:53:17.372Z",
+      "closedAt": "2025-02-15T23:03:35.100Z",
+      "channelId": "1340455924497645649",
+      "claimedBy": "bombeno"
+    },
+    {
+      "ticketId": "تصميم شعار-8",
+      "userId": "700093890669183076",
+      "username": "hezzat",
+      "type": "تصميم شعار",
+      "status": "active",
+      "createdAt": "2025-02-15T23:04:10.400Z",
+      "closedAt": null,
+      "channelId": "1340458663151927326",
+      "claimedBy": null
+    },
+    {
+      "ticketId": "تصميم بكج-5",
+      "userId": "700093890669183076",
+      "username": "hezzat",
+      "type": "تصميم بكج",
+      "status": "active",
+      "createdAt": "2025-02-15T23:06:51.311Z",
+      "closedAt": null,
+      "channelId": "1340459338019373217",
+      "claimedBy": null
+    },
+    {
+      "ticketId": "تصميم شعار-9",
+      "userId": "700093890669183076",
+      "username": "hezzat",
+      "type": "تصميم شعار",
+      "status": "closed",
+      "createdAt": "2025-02-15T23:10:48.677Z",
+      "closedAt": "2025-02-15T23:11:58.751Z",
+      "channelId": "1340460333709393931",
+      "claimedBy": null
+    },
+    {
+      "ticketId": "تصميم بكج-6",
+      "userId": "700093890669183076",
+      "username": "hezzat",
+      "type": "تصميم بكج",
+      "status": "closed",
+      "createdAt": "2025-02-16T17:59:06.827Z",
+      "closedAt": "2025-02-16T17:59:35.111Z",
+      "channelId": "1340744281748410402",
+      "claimedBy": null
+    },
+    {
+      "ticketId": "تصميم أخرى-5",
+      "userId": "700093890669183076",
+      "username": "hezzat",
+      "type": "تصميم أخرى",
+      "status": "active",
+      "createdAt": "2025-02-16T19:48:27.238Z",
+      "closedAt": null,
+      "channelId": "1340771795954827316",
+      "claimedBy": null
+    },
+    {
+      "ticketId": "تصميم بكج-7",
+      "userId": "700093890669183076",
+      "username": "hezzat",
+      "type": "تصميم بكج",
+      "status": "active",
+      "createdAt": "2025-02-16T19:52:24.312Z",
+      "closedAt": null,
+      "channelId": "1340772792609804380",
+      "claimedBy": null
+    },
+    {
+      "ticketId": "تصميم شعار-10",
+      "userId": "700093890669183076",
+      "username": "hezzat",
+      "type": "تصميم شعار",
+      "status": "active",
+      "createdAt": "2025-02-16T19:59:04.775Z",
+      "closedAt": null,
+      "channelId": "1340774469991661569",
+      "claimedBy": null
+    },
+    {
+      "ticketId": "تصميم شعار-11",
+      "userId": "700093890669183076",
+      "username": "hezzat",
+      "type": "تصميم شعار",
+      "status": "active",
+      "createdAt": "2025-02-16T20:11:59.985Z",
+      "closedAt": null,
+      "channelId": "1340777721575247873",
+      "claimedBy": null
+    }
   ],
   "categories": {
-    "تصميم شعار": 6,
-    "تصميم بكج": 4,
-    "تصميم أخرى": 4,
+    "تصميم شعار": 11,
+    "تصميم بكج": 7,
+    "تصميم أخرى": 5,
     "الدعم الفني": 7
   }
 }

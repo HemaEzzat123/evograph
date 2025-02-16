@@ -118,9 +118,23 @@ module.exports = (client) => {
           { name: "🕒 وقت الإنشاء", value: new Date().toLocaleString("ar-SA") }
         )
         .setFooter({ text: "نظام التذاكر المتطور" });
+      const getTicketPrefix = (selectedOption) => {
+        switch (selectedOption) {
+          case "الدعم الفني":
+            return "📩〢";
+          case "تصميم بكج":
+            return "📦〢";
+          case "تصميم شعار":
+            return "🎨〢";
+          case "تصميم أخرى":
+            return "🔮〢";
+          default:
+            return "";
+        }
+      };
 
       const ticketChannel = await guild.channels.create({
-        name: `ticket-${ticketNumber}`,
+        name: `${getTicketPrefix(selectedOption)}ticket-${ticketNumber}`,
         type: 0,
         parent: selectedCategoryID,
         permissionOverwrites: [
@@ -228,7 +242,7 @@ module.exports = (client) => {
           await ticketChannel.setParent(closedCategoryID);
           await ticketChannel.permissionOverwrites.edit(guild.id, {
             [PermissionsBitField.Flags.SendMessages]: false, // تعطيل الكتابة
-            [PermissionsBitField.Flags.ViewChannel]: true, // السماح بالمشاهدة
+            [PermissionsBitField.Flags.ViewChannel]: false, // السماح بالمشاهدة
           });
           // Save updated stats
           saveStats(client.ticketStats);
@@ -334,6 +348,27 @@ module.exports = (client) => {
           description: "مساعدة فنية وحل المشاكل",
         },
       ]);
+    console.log(`${client.user.tag} جاهز للعمل!`);
+
+    setInterval(async () => {
+      console.log("🔔 يتم إرسال تنبيهات التذاكر المفتوحة...");
+
+      for (const ticket of client.ticketStats.ticketHistory) {
+        if (ticket.status === "active") {
+          try {
+            const user = await client.users.fetch(ticket.userId);
+            await user.send(
+              `🔔 تذكير: لديك تذكرة مفتوحة **(${ticket.ticketId})**. يرجى الرد أو إغلاقها إن لم تعد بحاجة إليها.`
+            );
+            console.log(`✅ تم إرسال تنبيه إلى ${user.tag}`);
+          } catch (error) {
+            console.log(
+              `❌ فشل إرسال التنبيه إلى ${ticket.userId}: ${error.message}`
+            );
+          }
+        }
+      }
+    }, 24 * 60 * 60 * 1000); // كل 24 ساعة
 
     const row = new ActionRowBuilder().addComponents(selectMenu);
 

@@ -48,17 +48,22 @@ module.exports = (client) => {
     }
 
     if (command === "announce") {
-      if (!args.length) {
-        return message.reply("⚠️ الرجاء تقديم رسالة للإعلان.");
+      if (!args.length && message.attachments.size === 0) {
+        return message.reply("⚠️ الرجاء تقديم رسالة أو وسائط للإعلان.");
       }
 
       const announcement = args.join(" ");
       const guild = message.guild;
 
+      // تجهيز الوسائط (صور / فيديو / صوتيات) من الرسالة الأصلية
+      const mediaFiles = message.attachments.map(
+        (attachment) => attachment.url
+      );
+
       const embedAnnounce = new EmbedBuilder()
         .setColor("#ffcc00")
         .setTitle("📢 Announcement ")
-        .setDescription(announcement)
+        .setDescription(announcement || "📢 إعلان جديد!")
         .setFooter({
           text: `إعلان من: ${message.guild.name}`,
           iconURL: message.guild.iconURL(),
@@ -70,7 +75,10 @@ module.exports = (client) => {
       guild.members.cache.forEach(async (member) => {
         if (!member.user.bot) {
           try {
-            await member.send({ embeds: [embedAnnounce] });
+            await member.send({
+              embeds: [embedAnnounce],
+              files: mediaFiles.length > 0 ? mediaFiles : undefined, // إضافة المرفقات إذا وجدت
+            });
           } catch {
             console.log(`❌ لم أتمكن من إرسال رسالة إلى ${member.user.tag}`);
           }
