@@ -12,8 +12,9 @@ require("dotenv");
 
 module.exports = (client) => {
   // Configuration
-  const ticketCategory = process.env.TICKET_CATEGORY_ID; // Category ID where tickets will be created
-  const staffRole = process.env.STAFF_ROLE_ID; // Staff role ID
+  const ticketCategory =
+    process.env.TICKET_CATEGORY_ID || "1339250794419191828"; // Category ID where tickets will be created
+  const staffRole = process.env.STAFF_ROLE_ID || "1229411562985492556"; // Staff role ID
 
   const productsData = {
     لوجو: {
@@ -42,7 +43,7 @@ module.exports = (client) => {
   client.on("ready", async () => {
     try {
       const channel = await client.channels.fetch(
-        process.env.TICKET_CHANNEL_ID
+        process.env.TICKET_CHANNEL_ID || "1341514865138995285"
       );
 
       const ticketEmbed = new EmbedBuilder()
