@@ -224,9 +224,7 @@ module.exports = (client) => {
 
           // Create the ticket channel
           const ticketChannel = await guild.channels.create({
-            name: `ticket-${interaction.user.username
-              .toLowerCase()
-              .replace(/\s+/g, "-")}`,
+            name: `ticket-${Math.random().toString(36).slice(2)}`,
             type: ChannelType.GuildText,
             parent: ticketCategory,
             permissionOverwrites: [
