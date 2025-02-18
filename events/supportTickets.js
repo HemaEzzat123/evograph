@@ -8,11 +8,13 @@ const {
   PermissionsBitField,
   AttachmentBuilder,
 } = require("discord.js");
+require("dotenv");
 
 module.exports = (client) => {
   // Configuration
   const ticketCategory = process.env.TICKET_CATEGORY_ID; // Category ID where tickets will be created
   const staffRole = process.env.STAFF_ROLE_ID; // Staff role ID
+
   const productsData = {
     لوجو: {
       price: "50 ريال",
@@ -209,9 +211,8 @@ module.exports = (client) => {
           const existingTicket = guild.channels.cache.find(
             (channel) =>
               channel.name ===
-                `ticket-${interaction.user.username
-                  .toLowerCase()
-                  .replace(/\s+/g, "-")}` && channel.parentId === ticketCategory
+                `ticket-${Math.random().toString(36).substring(7)}` &&
+              channel.parentId === ticketCategory
           );
 
           if (existingTicket) {
@@ -224,7 +225,7 @@ module.exports = (client) => {
 
           // Create the ticket channel
           const ticketChannel = await guild.channels.create({
-            name: `ticket-${Math.random().toString(36).slice(2)}`,
+            name: `ticket-${Math.random().toString(36).substring(7)}`,
             type: ChannelType.GuildText,
             parent: ticketCategory,
             permissionOverwrites: [
