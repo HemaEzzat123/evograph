@@ -20,22 +20,22 @@ module.exports = (client) => {
     لوجو: {
       price: "50 ريال",
       description: "تصميم لوجو احترافي مع تعديلات مجانية",
-      image: "logo_example.png",
+      image: "https://probot.media/IzIdPPnqle.png",
     },
     بوستر: {
       price: "75 ريال",
       description: "تصميم بوستر إعلاني مميز",
-      image: "poster_example.png",
+      image: "https://probot.media/IzIdPPnqle.png",
     },
     "هوية بصرية": {
       price: "200 ريال",
       description: "تصميم هوية بصرية متكاملة للعلامة التجارية",
-      image: "branding_example.png",
+      image: "https://probot.media/IzIdPPnqle.png",
     },
     "موشن جرافيك": {
       price: "150 ريال",
       description: "تصميم فيديو موشن جرافيك مدته 30 ثانية",
-      image: "motion_example.png",
+      image: "https://probot.media/IzIdPPnqle.png",
     },
   };
 
