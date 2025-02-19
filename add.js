@@ -400,7 +400,9 @@ async function handleInvoiceCreation(interaction) {
       )
       .setTimestamp();
 
-    const image = new AttachmentBuilder("F:/bots/invoice/evo.jpg");
+    const image = new AttachmentBuilder(
+      "C:/Users/Hema/OneDrive/Desktop/evo/security/evo.jpg"
+    );
     embed.setImage("attachment://evo.jpg");
     const viewButton = new ButtonBuilder()
       .setLabel("عرض الفاتورة")
