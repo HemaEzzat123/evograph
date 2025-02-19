@@ -90,14 +90,27 @@ module.exports = (client) => {
         `🔄 محاولة استعادة الدور المحذوف: ${deletedRole.name} (${deletedRole.id})`
       );
 
-      const roleData = await RoleBackup.findOne({
+      // محاولة العثور على الدور باستخدام الـ ID
+      let roleData = await RoleBackup.findOne({
         guildId: guild.id,
-        roleId: deletedRole.name,
+        roleId: deletedRole.id,
       });
 
+      // إذا لم يتم العثور عليه، البحث باستخدام الاسم
       if (!roleData) {
         console.log(
-          `⚠️ لم يتم العثور على الدور "${deletedRole.name}" في النسخة الاحتياطية.`
+          `⚠️ لم يتم العثور على الدور باستخدام ID، يتم البحث باستخدام الاسم...`
+        );
+        roleData = await RoleBackup.findOne({
+          guildId: guild.id,
+          roleName: deletedRole.name, // 🔍 البحث باستخدام اسم الدور
+        });
+      }
+
+      // إذا لم يتم العثور عليه نهائيًا، إيقاف العملية
+      if (!roleData) {
+        console.log(
+          `❌ لم يتم العثور على النسخة الاحتياطية للدور "${deletedRole.name}".`
         );
         return;
       }
@@ -107,14 +120,14 @@ module.exports = (client) => {
         ? `https://cdn.discordapp.com/role-icons/${roleData.roleId}/${roleData.icon}.png`
         : null;
 
-      // إنشاء الدور مع الأيقونة
+      // إنشاء الدور
       const restoredRole = await guild.roles.create({
         name: roleData.roleName,
         color: roleData.color,
         hoist: roleData.hoist,
         position: roleData.position,
         permissions: BigInt(roleData.permissions),
-        icon: roleIcon, // تم تمرير الأيقونة كـ URL صالح
+        icon: roleIcon,
         reason: "إعادة الدور المحذوف من النسخة الاحتياطية",
       });
 
