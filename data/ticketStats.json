@@ -1,7 +1,7 @@
 {
-  "totalTickets": 41,
+  "totalTickets": 42,
   "activeTickets": 20,
-  "resolvedTickets": 21,
+  "resolvedTickets": 22,
   "ticketHistory": [
     {
       "ticketId": "تصميم شعار-7",
@@ -101,12 +101,23 @@
       "closedAt": null,
       "channelId": "1340777721575247873",
       "claimedBy": null
+    },
+    {
+      "ticketId": "تصميم أخرى-6",
+      "userId": "700093890669183076",
+      "username": "hezzat",
+      "type": "تصميم أخرى",
+      "status": "closed",
+      "createdAt": "2025-02-18T23:09:24.558Z",
+      "closedAt": "2025-02-18T23:09:53.858Z",
+      "channelId": "1341547147958423556",
+      "claimedBy": null
     }
   ],
   "categories": {
     "تصميم شعار": 11,
     "تصميم بكج": 7,
-    "تصميم أخرى": 5,
+    "تصميم أخرى": 6,
     "الدعم الفني": 7
   }
 }

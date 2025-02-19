@@ -1,3 +1,4 @@
+require("dotenv");
 const {
   ActionRowBuilder,
   ButtonBuilder,
@@ -8,7 +9,6 @@ const {
   PermissionsBitField,
   AttachmentBuilder,
 } = require("discord.js");
-require("dotenv");
 
 module.exports = (client) => {
   // Configuration

@@ -12,6 +12,7 @@
   "dependencies": {
     "@discordjs/voice": "^0.18.0",
     "axios": "^1.7.9",
+    "canvacord": "^6.0.2",
     "canvas": "^3.1.0",
     "discord.js": "^14.18.0",
     "dotenv": "^16.4.7",
@@ -22,11 +23,14 @@
     "gif-encoder": "^0.7.2",
     "gif-encoder-2": "^1.0.5",
     "gif.js": "^0.2.0",
+    "gifenc": "^1.0.3",
+    "gifsicle": "^7.0.1",
     "libsodium-wrappers": "^0.7.13",
     "mongoose": "^8.10.0",
     "node-fetch": "^3.3.2",
     "node-gif": "^1.0.5",
     "play-dl": "^1.9.7",
+    "render-gif": "^2.0.4",
     "ytdl-core": "^4.11.5"
   }
 }

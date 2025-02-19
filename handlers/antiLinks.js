@@ -20,6 +20,23 @@ module.exports = (client) => {
     "احا",
     "اح",
     "steamcommunity.com/gift",
+    "discord.com/gift",
+    "discord.com/invite",
+    "discord.gg",
+    "كسمك",
+    "كس",
+    "كسخت",
+    "كسم",
+    "كسك",
+    "كسي",
+    "كسام",
+    "كسكم",
+    "كسكمك",
+    "كسكمكم",
+    "كسكمكمك",
+    "kos",
+    "كوس",
+    "kosomk",
   ];
 
   client.on("messageCreate", (message) => {
