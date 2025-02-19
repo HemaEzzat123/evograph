@@ -9,7 +9,7 @@ const fs = require("fs");
 module.exports = (client) => {
   const voiceChannelId = "1339251067485032459";
   const staffChannelID = "1339251154298736813";
-  const staffRoleID = "1229411562985492556";
+  const staffRoleID = "1341856671173181522";
   const audioFilePath = "./support.mp3";
 
   client.on("voiceStateUpdate", (oldState, newState) => {
