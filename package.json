@@ -10,6 +10,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@discordjs/builders": "^1.10.1",
+    "@discordjs/rest": "^2.4.3",
     "@discordjs/voice": "^0.18.0",
     "axios": "^1.7.9",
     "canvacord": "^6.0.2",
@@ -26,10 +28,12 @@
     "gifenc": "^1.0.3",
     "gifsicle": "^7.0.1",
     "libsodium-wrappers": "^0.7.13",
-    "mongoose": "^8.10.0",
+    "mongoose": "^8.10.1",
+    "node-cron": "^3.0.3",
     "node-fetch": "^3.3.2",
     "node-gif": "^1.0.5",
     "play-dl": "^1.9.7",
+    "qrcode": "^1.5.4",
     "render-gif": "^2.0.4",
     "ytdl-core": "^4.11.5"
   }

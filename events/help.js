@@ -2,9 +2,20 @@ const { EmbedBuilder } = require("discord.js");
 
 module.exports = (client) => {
   client.on("messageCreate", async (message) => {
+    // تجاهل الرسائل الصادرة من البوتات
     if (message.author.bot) return;
+
+    // التحقق مما إذا كان الأمر هو "!help"
     if (message.content.toLowerCase() !== "!help") return;
 
+    // التحقق مما إذا كان المستخدم لديه صلاحية ADMINISTRATOR
+    if (!message.member.permissions.has("ADMINISTRATOR")) {
+      return message.reply(
+        "🚫 ليس لديك إذن لاستخدام هذا الأمر. يجب أن تكون لديك صلاحية `ADMINISTRATOR`."
+      );
+    }
+
+    // إنشاءEmbed للمساعدة
     const helpEmbed = new EmbedBuilder()
       .setColor("#0099ff")
       .setTitle("📚 قائمة الأوامر المتاحة")
@@ -25,7 +36,12 @@ module.exports = (client) => {
           name: "🤖 أوامر البوت",
           value: `
 • !help - عرض قائمة الأوامر
-• !clear [العدد] - مسح عدد محدد من الرسائل`,
+• !clear [العدد] - مسح عدد محدد من الرسائل
+• !message - ارسال رسالة مخصصه وتثبيتها في القناة
+• !announce - ارسال رسالة الى جميع اعضاء السيرفر
+• /invoice [amount] [user] [email] [currency] [recurring] - paypal invoice
+• /list - عرض الفواتير الحاليه
+`,
           inline: false,
         },
         {
