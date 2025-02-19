@@ -92,7 +92,7 @@ module.exports = (client) => {
 
       const roleData = await RoleBackup.findOne({
         guildId: guild.id,
-        roleId: deletedRole.id,
+        roleId: deletedRole.name,
       });
 
       if (!roleData) {
