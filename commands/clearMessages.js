@@ -21,7 +21,7 @@ module.exports = (client) => {
       const amount = parseInt(args[0]) || 100;
 
       if (isNaN(amount) || amount < 1 || amount > 100) {
-        return message.reply("⚠️ يرجى تحديد عدد بين 1 و 100.");
+        return message.reply("⚠️ يرجى تحديد عدد بين 1 الى 100.");
       }
 
       try {
