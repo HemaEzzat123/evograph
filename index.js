@@ -61,6 +61,7 @@ require("./events/tickets")(client);
 require("./events/channelMessage")(client);
 require("./events/sendMessageInChannel")(client);
 require("./events/supportTickets")(client);
+require("./commands/clearMessages")(client);
 require("./voice")(client);
 
 const app = express();
