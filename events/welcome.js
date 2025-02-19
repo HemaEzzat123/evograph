@@ -1,56 +1,64 @@
 const { EmbedBuilder } = require("discord.js");
-const canvacord = require("canvacord"); // Ensure this is imported correctly
 
 module.exports = (client) => {
   client.on("guildMemberAdd", async (member) => {
-    const channelId = "1229417339976417372"; // Replace with your channel ID
+    const channelId = "1229417339976417372";
     const channel = member.guild.channels.cache.get(channelId);
-    if (!channel) return;
+
+    if (!channel || !channel.isTextBased()) {
+      console.error(`❌ قناة الترحيب غير موجودة أو غير صالحة.`);
+      return;
+    }
 
     try {
-      // Generate a welcome image using Canvacord
-      const welcomeImage = await canvacord.Canvas.welcome()
-        .setUsername(member.user.username) // Set the username
-        .setDiscriminator(member.user.discriminator) // Set the discriminator
-        .setAvatar(
-          member.user.displayAvatarURL({ extension: "png", size: 512 })
-        ) // Set the user's avatar
-        .setMemberCount(member.guild.memberCount) // Optional: Set the server member count
-        .setBackground(
-          "https://media.discordapp.net/attachments/1024348162820935680/1340810996050169907/welcome.gif?ex=67b702cc&is=67b5b14c&hm=443df0f3c3927be9461cb9caf85321f7895cc14011530e601dad6fcb036add17&="
-        ) // Set the background image (GIF)
-        .setColor("border", "#ffffff") // Optional: Border color
-        .setColor("usernamebox", "#000000") // Optional: Username box color
-        .setColor("discriminatorbox", "#ffffff") // Optional: Discriminator box color
-        .setColor("messagebox", "#ffffff") // Optional: Message box color
-        .setColor("title", "#ff0000") // Optional: Title color
-        .build(); // Build the image
-
-      // Send the welcome message with the generated image
+      // إنشاء Embed للترحيب
       const welcomeEmbed = new EmbedBuilder()
-        .setTitle(`🎉 Welcome ${member.user.username}!`)
+        .setTitle(`🎉 أهلاً بك ${member.user.username}!`)
         .setDescription(
-          `Hey <@${member.id}>, welcome to **${member.guild.name}**! We hope you have a great time here. 😊`
+          `مرحبًا <@${member.id}>, أهلاً بك في **${member.guild.name}**! نأمل أن تقضي وقتًا ممتعًا هنا. 😊`
         )
         .setColor("#00ff00")
-        .setImage("attachment://welcome-image.png"); // Attach the generated image
+        // إضافة GIF كصورة رئيسية
+        .setImage(
+          "https://cdn.discordapp.com/attachments/1024348162820935680/1340810996050169907/welcome.gif?ex=67b702cc&is=67b5b14c&hm=443df0f3c3927be9461cb9caf85321f7895cc14011530e601dad6fcb036add17&"
+        ) // ضع رابط الـ GIF هنا
+        // إضافة صورة المستخدم كصورة مصغرة
+        .setThumbnail(
+          member.user.displayAvatarURL({ dynamic: true, size: 512 })
+        )
+        .setTimestamp()
+        .setFooter({ text: `عضو رقم #${member.guild.memberCount}` });
 
-      // Send the embed with the attached image
-      channel.send({
+      // إرسال الرسالة
+      await channel.send({
+        content: `أهلاً بك في السيرفر، <@${member.id}>!`,
         embeds: [welcomeEmbed],
-        files: [{ attachment: welcomeImage, name: "welcome-image.png" }],
       });
 
-      // Optionally, send a direct message to the new member
+      // إرسال رسالة خاصة للعضو الجديد
       try {
-        await member.send(
-          `👋 Hey **${member.user.username}**, welcome to **${member.guild.name}**! 🎉\n\n📜 **Rules:**\n1️⃣ Be respectful\n2️⃣ No spam\n3️⃣ Follow Discord's ToS\n\nEnjoy your stay! 😊`
-        );
+        await member.send({
+          content: `👋 مرحبًا **${member.user.username}**, أهلاً بك في **${member.guild.name}**! 🎉`,
+          embeds: [
+            new EmbedBuilder()
+              .setTitle("قوانين وقواعد السيرفر")
+              .setDescription(
+                "📜 **القوانين:**\n" +
+                  "1️⃣ احترام الجميع.\n" +
+                  "2️⃣ عدم إرسال رسائل مزعجة.\n" +
+                  "3️⃣ الالتزام بشروط Discord.\n\n" +
+                  "استمتع بالبقاء معنا! 😊"
+              )
+              .setColor("#00ff00"),
+          ],
+        });
       } catch (err) {
-        console.log(`❌ Failed to send a direct message to ${member.user.tag}`);
+        console.log(
+          `❌ لم يتمكن البوت من إرسال رسالة خاصة إلى ${member.user.tag}`
+        );
       }
     } catch (error) {
-      console.error(`❌ Error generating welcome image:`, error);
+      console.error(`❌ خطأ أثناء إرسال رسالة الترحيب:`, error);
     }
   });
 };
