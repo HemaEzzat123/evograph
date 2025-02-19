@@ -17,7 +17,7 @@ module.exports = (client) => {
         ) // Set the user's avatar
         .setMemberCount(member.guild.memberCount) // Optional: Set the server member count
         .setBackground(
-          "https://cdn.discordapp.com/attachments/1024348162820935680/1340810996050169907/welcome.gif"
+          "https://media.discordapp.net/attachments/1024348162820935680/1340810996050169907/welcome.gif?ex=67b702cc&is=67b5b14c&hm=443df0f3c3927be9461cb9caf85321f7895cc14011530e601dad6fcb036add17&="
         ) // Set the background image (GIF)
         .setColor("border", "#ffffff") // Optional: Border color
         .setColor("usernamebox", "#000000") // Optional: Username box color
