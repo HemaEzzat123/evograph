@@ -244,7 +244,7 @@ async function createPayPalInvoice(
       items: [
         {
           name: description,
-          description: description,
+          description: `${description} - ${process.env.BUSINESS_NAME}`, // إضافة اسم العمل للوصف
           quantity: "1",
           unit_amount: {
             currency_code: currency,
