@@ -302,7 +302,7 @@ module.exports = (client) => {
     if (!ticketChannel) return;
 
     const menuEmbed = new EmbedBuilder()
-      .setColor(Colors.Blue)
+      .setColor("#f1645f")
       .setTitle("🎫 نظام التذاكر")
       .setImage(
         "https://media.discordapp.net/attachments/1342144217111334912/1342155499751346237/9ba50bea6a418301.png?ex=67b89b37&is=67b749b7&hm=0f16b62b223ae17d8ce6d90126d27be10a1c16c7432d833a090c8500a50a42b9&=&format=webp&quality=lossless&width=1056&height=377"
@@ -312,15 +312,17 @@ module.exports = (client) => {
       )
       .setDescription(
         `
-        🔸 | لفتح تذكرة أضغط على الزر أدناه | 🔸
-              ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+        💠 ━━━━━━ ⭑ ━━━━━━ 💠  
+🔹 **| لفتح تذكرة اضغط على الزر أدناه |** 🔹  
+💠 ━━━━━━ ⭑ ━━━━━━ 💠  
 
-              「🎨」• تذكرة تصميم شعار
-              「📦」• تذكرة تصميم بكج
-              「🔮」• تذكرة تصميم اخرى
-              「📩」• تذكرة الدعم الفني
+🎨 | **تذكرة تصميم شعار**  
+📦 | **تذكرة تصميم بكج**  
+🔮 | **تذكرة تصميم أخرى**  
+📩 | **تذكرة الدعم الفني**  
 
-              ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+💠 ━━━━━━ ⭑ ━━━━━━ 💠  
+
         `
       );
 
