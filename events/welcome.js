@@ -20,9 +20,9 @@ module.exports = (client) => {
         .setDescription(
           `مرحبًا <@${member.id}>, أهلاً بك في **${member.guild.name}**! نأمل أن تقضي وقتًا ممتعًا هنا. 😊`
         )
-        .setColor("#00ff00")
+        .setColor("#f1645f")
         .setImage(
-          "https://cdn.discordapp.com/attachments/1024348162820935680/1340810996050169907/welcome.gif?ex=67b702cc&is=67b5b14c&hm=443df0f3c3927be9461cb9caf85321f7895cc14011530e601dad6fcb036add17&"
+          "https://cdn.discordapp.com/attachments/1024348162820935680/1340810996050169907/welcome.gif?ex=67b8544c&is=67b702cc&hm=6548086a7f169a14338f1bf0a65f057ddb7eda2216c1a9cc8a239564f5797835&"
         )
         .setThumbnail(
           member.user.displayAvatarURL({ dynamic: true, size: 512 })
@@ -56,7 +56,7 @@ module.exports = (client) => {
                     "3️⃣ الالتزام بشروط Discord.\n\n" +
                     "استمتع بالبقاء معنا! 😊"
                 )
-                .setColor("#00ff00"),
+                .setColor("#f1645f"),
             ],
           });
         }
