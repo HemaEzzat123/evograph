@@ -15,26 +15,27 @@ module.exports = (client) => {
   const ticketCategory =
     process.env.TICKET_CATEGORY_ID || "1339250794419191828"; // Category ID where tickets will be created
   const staffRole = process.env.STAFF_ROLE_ID || "1341856671173181522"; // Staff role ID
+
   const productsData = {
     لوجو: {
       price: "50 ريال",
       description: "تصميم لوجو احترافي مع تعديلات مجانية",
-      image: "test.jpg",
+      image: "../assets/images/test.jpg",
     },
     بوستر: {
       price: "75 ريال",
       description: "تصميم بوستر إعلاني مميز",
-      image: "test.jpg",
+      image: "../assets/images/test.jpg",
     },
     "هوية بصرية": {
       price: "200 ريال",
       description: "تصميم هوية بصرية متكاملة للعلامة التجارية",
-      image: "test.jpg",
+      image: "../assets/images/test.jpg",
     },
     "موشن جرافيك": {
       price: "150 ريال",
       description: "تصميم فيديو موشن جرافيك مدته 30 ثانية",
-      image: "test.jpg",
+      image: "../assets/images/test.jpg",
     },
   };
 
@@ -230,7 +231,7 @@ module.exports = (client) => {
             parent: ticketCategory,
             permissionOverwrites: [
               {
-                id: guild.roles.everyone.id,
+                id: guild.id,
                 deny: [PermissionsBitField.Flags.ViewChannel],
               },
               {
