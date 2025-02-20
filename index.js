@@ -64,6 +64,7 @@ require("./events/channelMessage")(client);
 require("./events/sendMessageInChannel")(client);
 require("./events/supportTickets")(client);
 require("./events/help")(client);
+require("./events/updateChannelName")(client);
 require("./commands/clearMessages")(client);
 require("./voice")(client);
 require("./add");

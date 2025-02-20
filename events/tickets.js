@@ -304,6 +304,9 @@ module.exports = (client) => {
     const menuEmbed = new EmbedBuilder()
       .setColor(Colors.Blue)
       .setTitle("🎫 نظام التذاكر")
+      .setImage(
+        "https://media.discordapp.net/attachments/1342144217111334912/1342155499751346237/9ba50bea6a418301.png?ex=67b89b37&is=67b749b7&hm=0f16b62b223ae17d8ce6d90126d27be10a1c16c7432d833a090c8500a50a42b9&=&format=webp&quality=lossless&width=1056&height=377"
+      )
       .setDescription(
         `
         🔸 | لفتح تذكرة أضغط على الزر أدناه | 🔸
