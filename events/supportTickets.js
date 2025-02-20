@@ -45,7 +45,10 @@ module.exports = (client) => {
       const channel = await client.channels.fetch(
         process.env.TICKET_CHANNEL_ID || "1341514865138995285"
       );
-
+      const role = await guild.roles.fetch(staffRole);
+      if (!role) {
+        throw new Error("Staff role not found");
+      }
       const ticketEmbed = new EmbedBuilder()
         .setTitle("🎫 نظام التذاكر")
         .setDescription("اضغط على الزر أدناه لفتح تذكرة")
@@ -212,8 +215,9 @@ module.exports = (client) => {
           const existingTicket = guild.channels.cache.find(
             (channel) =>
               channel.name ===
-                `ticket-${Math.random().toString(36).substring(7)}` &&
-              channel.parentId === ticketCategory
+                `ticket-${interaction.user.username}-${Date.now().toString(
+                  36
+                )} ` && channel.parentId === ticketCategory
           );
 
           if (existingTicket) {
@@ -226,7 +230,9 @@ module.exports = (client) => {
 
           // Create the ticket channel
           const ticketChannel = await guild.channels.create({
-            name: `ticket-${Math.random().toString(36).substring(7)}`,
+            name: `ticket-${interaction.user.username}-${Date.now().toString(
+              36
+            )}`,
             type: ChannelType.GuildText,
             parent: ticketCategory,
             permissionOverwrites: [
@@ -235,7 +241,7 @@ module.exports = (client) => {
                 deny: [PermissionsBitField.Flags.ViewChannel],
               },
               {
-                id: userId,
+                id: interaction.user.id,
                 allow: [
                   PermissionsBitField.Flags.ViewChannel,
                   PermissionsBitField.Flags.SendMessages,
@@ -243,7 +249,7 @@ module.exports = (client) => {
                 ],
               },
               {
-                id: staffRole,
+                id: role.id,
                 allow: [
                   PermissionsBitField.Flags.ViewChannel,
                   PermissionsBitField.Flags.SendMessages,
