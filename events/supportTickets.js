@@ -20,22 +20,22 @@ module.exports = (client) => {
     لوجو: {
       price: "50 ريال",
       description: "تصميم لوجو احترافي مع تعديلات مجانية",
-      image: "../assets/images/test.jpg",
+      image: "test.jpg",
     },
     بوستر: {
       price: "75 ريال",
       description: "تصميم بوستر إعلاني مميز",
-      image: "../assets/images/test.jpg",
+      image: "test.jpg",
     },
     "هوية بصرية": {
       price: "200 ريال",
       description: "تصميم هوية بصرية متكاملة للعلامة التجارية",
-      image: "../assets/images/test.jpg",
+      image: "test.jpg",
     },
     "موشن جرافيك": {
       price: "150 ريال",
       description: "تصميم فيديو موشن جرافيك مدته 30 ثانية",
-      image: "../assets/images/test.jpg",
+      image: "test.jpg",
     },
   };
 
@@ -45,10 +45,6 @@ module.exports = (client) => {
       const channel = await client.channels.fetch(
         process.env.TICKET_CHANNEL_ID || "1341514865138995285"
       );
-      const role = await guild.roles.fetch(staffRole);
-      if (!role) {
-        throw new Error("Staff role not found");
-      }
       const ticketEmbed = new EmbedBuilder()
         .setTitle("🎫 نظام التذاكر")
         .setDescription("اضغط على الزر أدناه لفتح تذكرة")
@@ -227,7 +223,10 @@ module.exports = (client) => {
             });
             return;
           }
-
+          const role = await guild.roles.fetch(staffRole);
+          if (!role) {
+            throw new Error("Staff role not found");
+          }
           // Create the ticket channel
           const ticketChannel = await guild.channels.create({
             name: `ticket-${interaction.user.username}-${Date.now().toString(
@@ -241,7 +240,7 @@ module.exports = (client) => {
                 deny: [PermissionsBitField.Flags.ViewChannel],
               },
               {
-                id: interaction.user.id,
+                id: userId,
                 allow: [
                   PermissionsBitField.Flags.ViewChannel,
                   PermissionsBitField.Flags.SendMessages,
@@ -249,7 +248,7 @@ module.exports = (client) => {
                 ],
               },
               {
-                id: staffRole,
+                id: role.id,
                 allow: [
                   PermissionsBitField.Flags.ViewChannel,
                   PermissionsBitField.Flags.SendMessages,
