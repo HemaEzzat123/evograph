@@ -14,7 +14,7 @@ module.exports = (client) => {
   // Configuration
   const ticketCategory =
     process.env.TICKET_CATEGORY_ID || "1339250794419191828"; // Category ID where tickets will be created
-  const staffRole = process.env.STAFF_ROLE_ID || "1341856671173181522"; // Staff role ID
+  const staffRole = "1341856671173181522"; // Staff role ID
 
   const productsData = {
     لوجو: {
