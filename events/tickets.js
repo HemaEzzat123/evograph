@@ -57,8 +57,7 @@ module.exports = (client) => {
       "الدعم الفني": "1229478152884060270",
     };
 
-    const supportRoleId = "1229411562985492556";
-
+    const supportRoleId = "1341856671173181522";
     if (
       interaction.isStringSelectMenu() &&
       interaction.customId === "ticket_menu"
