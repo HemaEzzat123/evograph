@@ -230,7 +230,7 @@ module.exports = (client) => {
             parent: ticketCategory,
             permissionOverwrites: [
               {
-                id: guild.id,
+                id: guild.roles.everyone.id,
                 deny: [PermissionsBitField.Flags.ViewChannel],
               },
               {
