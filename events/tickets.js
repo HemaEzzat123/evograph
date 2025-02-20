@@ -69,7 +69,7 @@ module.exports = (client) => {
           return interaction.reply({
             content: `⏰ يرجى الانتظار ${Math.ceil(
               timeLeft / (60 * 1000)
-            )} ثانية قبل إنشاء تذكرة جديدة.`,
+            )} يرجى الانتظار دقيقه`,
             ephemeral: true,
           });
         }

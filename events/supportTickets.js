@@ -249,7 +249,7 @@ module.exports = (client) => {
                 ],
               },
               {
-                id: role.id,
+                id: staffRole,
                 allow: [
                   PermissionsBitField.Flags.ViewChannel,
                   PermissionsBitField.Flags.SendMessages,
