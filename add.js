@@ -230,7 +230,7 @@ async function createPayPalInvoice(
         },
       },
       invoicer: {
-        business_name: process.env.BUSINESS_NAME || "Your Business Name",
+        business_name: process.env.BUSINESS_NAME,
         email_address: process.env.BUSINESS_EMAIL,
         logo_url: process.env.BUSINESS_LOGO_URL,
       },

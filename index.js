@@ -54,6 +54,7 @@ require("./handlers/raidProtection")(client);
 require("./handlers/botProtection")(client);
 require("./handlers/ownerProtection")(client);
 require("./handlers/restoreRoles")(client);
+require("./handlers/restoreChannels")(client);
 require("./events/autoReactMessages")(client);
 require("./events/allMemberMessage")(client);
 require("./events/welcome")(client);
@@ -63,9 +64,9 @@ require("./events/channelMessage")(client);
 require("./events/sendMessageInChannel")(client);
 require("./events/supportTickets")(client);
 require("./events/help")(client);
-require("./add")
 require("./commands/clearMessages")(client);
 require("./voice")(client);
+require("./add");
 
 const app = express();
 const PORT = process.env.PORT || 2000;
