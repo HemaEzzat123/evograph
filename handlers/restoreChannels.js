@@ -73,10 +73,20 @@ module.exports = (client) => {
 
       const { executor } = logEntry; // الشخص الذي حذف القناة
       const guildOwner = await guild.fetchOwner(); // جلب الـ Owner
+      const botId = client.user.id; // ID الخاص بالبوت
 
+      // إذا كان الشخص الذي حذف القناة هو الـ Owner، لا تستعيد القناة
       if (executor.id === guildOwner.id) {
         console.log(
           `🛑 القناة "${deletedChannel.name}" تم حذفها بواسطة الـ Owner، لن يتم استعادتها.`
+        );
+        return;
+      }
+
+      // إذا كان الشخص الذي حذف القناة هو البوت نفسه، لا تستعيد القناة
+      if (executor.id === botId) {
+        console.log(
+          `🤖 القناة "${deletedChannel.name}" تم حذفها بواسطة البوت، لن يتم استعادتها.`
         );
         return;
       }
