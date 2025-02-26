@@ -121,7 +121,7 @@ module.exports = (client) => {
       }
 
       // Handle ticket close button
-      if (interaction.customId === "close_ticket") {
+      if (interaction.customId === "close_ticket_button") {
         // Immediately defer the reply to prevent timeout
         await interaction.deferReply();
 
@@ -260,7 +260,7 @@ module.exports = (client) => {
 
           const closeButton = new ActionRowBuilder().addComponents(
             new ButtonBuilder()
-              .setCustomId("close_ticket")
+              .setCustomId("close_ticket_button")
               .setLabel("إغلاق التذكرة")
               .setStyle(ButtonStyle.Danger)
               .setEmoji("🔒")
