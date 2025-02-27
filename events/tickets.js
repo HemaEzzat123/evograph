@@ -229,7 +229,6 @@ module.exports = (client) => {
           const closeEmbed = new EmbedBuilder()
             .setColor(Colors.Red)
             .setDescription("🔒 جارِ إغلاق التذكرة خلال 5 ثوانٍ...");
-
           // Update ticket data
           ticketData.status = "closed";
           ticketData.closedAt = new Date().toISOString();
@@ -248,10 +247,7 @@ module.exports = (client) => {
 
           await interaction.reply({ embeds: [closeEmbed] });
           setTimeout(
-            () =>
-              interaction.editReply({
-                content: "🔒 تم اغلاق التذكرة.",
-              }),
+            () => closeEmbed.setDescription("🔒 تم اغلاق التذكرة."),
             5000
           );
 
