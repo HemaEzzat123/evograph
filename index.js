@@ -35,7 +35,7 @@ client.on("messageCreate", async (message) => {
 
   try {
     const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`,
       { contents: [{ parts: [{ text: userMessage }] }] }
     );
 
