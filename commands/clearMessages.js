@@ -12,23 +12,30 @@ module.exports = (client) => {
     const command = args.shift().toLowerCase();
 
     if (command === "clear") {
-      // Check if user has the "Manage Messages" permission
       if (!message.member.permissions.has(PermissionFlagsBits.ManageMessages)) {
         return message.reply("🚫 ليس لديك صلاحية لحذف الرسائل.");
       }
 
-      // Get the number of messages to delete
       const amount = parseInt(args[0]) || 100;
-
       if (isNaN(amount) || amount < 1 || amount > 100) {
         return message.reply("⚠️ يرجى تحديد عدد بين 1 الى 100.");
       }
 
       try {
-        await message.channel.bulkDelete(amount, true);
-        message.channel.send(`✅ تم مسح ${amount} رسالة بنجاح!`).then((msg) => {
-          setTimeout(() => msg.delete(), 3000); // Auto-delete confirmation after 3 seconds
+        const messages = await message.channel.messages.fetch({
+          limit: amount,
         });
+        if (messages.size === 0) {
+          return message.reply("⚠️ لا توجد رسائل قابلة للحذف في هذه القناة.");
+        }
+
+        await message.channel.bulkDelete(messages, true);
+        message.channel
+          .send(`✅ تم مسح ${messages.size} رسالة بنجاح!`)
+          .then((msg) => setTimeout(() => msg.delete(), 3000))
+          .catch((err) =>
+            console.error("❌ خطأ أثناء إرسال رسالة التأكيد:", err)
+          );
       } catch (error) {
         console.error("❌ خطأ أثناء مسح الرسائل:", error);
         message.reply("🚫 حدث خطأ أثناء محاولة مسح الرسائل.");

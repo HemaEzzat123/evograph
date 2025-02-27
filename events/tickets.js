@@ -247,7 +247,14 @@ module.exports = (client) => {
           saveStats(client.ticketStats);
 
           await interaction.reply({ embeds: [closeEmbed] });
-          // setTimeout(() => ticketChannel.delete(), 5000);
+          setTimeout(
+            () =>
+              interaction.editReply({
+                content: "🔒 تم اغلاق التذكرة.",
+              }),
+            5000
+          );
+
           break;
 
         case "claim_ticket":
