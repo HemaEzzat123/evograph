@@ -1,4 +1,4 @@
-const allowedBots = ["", ""]; // ضع هنا معرفات البوتات الموثوقة
+const allowedBots = ["1255176806944997468", ""]; // ضع هنا معرفات البوتات الموثوقة
 
 module.exports = (client) => {
   client.on("guildMemberAdd", async (member) => {
