@@ -9,7 +9,9 @@ module.exports = (client) => {
       console.error(`❌ قناة الترحيب غير موجودة أو غير صالحة.`);
       return;
     }
-
+    let RULES_CHANNEL_ID = process.env.RULES_CHANNEL_ID;
+    let INFO_CHANNEL_ID = process.env.INFO_CHANNEL_ID;
+    let ANNOUNCEMENTS_CHANNEL_ID = process.env.ANNOUNCEMENTS_CHANNEL_ID;
     try {
       const verifyChannelId = "1338620988635480126"; // استبدل بـ ID القناة الحقيقية
       // إنشاء Embed للترحيب
@@ -55,6 +57,23 @@ module.exports = (client) => {
                     "2️⃣ عدم إرسال رسائل مزعجة.\n" +
                     "3️⃣ الالتزام بشروط Discord.\n\n" +
                     "استمتع بالبقاء معنا! 😊"
+                )
+                .addFields(
+                  {
+                    name: `[📜] <#${RULES_CHANNEL_ID}>`,
+                    value: "For Rules",
+                    inline: false,
+                  },
+                  {
+                    name: `[🌿] <#${INFO_CHANNEL_ID}>`,
+                    value: "For Any Information",
+                    inline: false,
+                  },
+                  {
+                    name: `[📢] <#${ANNOUNCEMENTS_CHANNEL_ID}>`,
+                    value: "For Any News",
+                    inline: false,
+                  }
                 )
                 .setColor("#f1645f"),
             ],

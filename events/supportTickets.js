@@ -48,7 +48,7 @@ module.exports = (client) => {
       const ticketEmbed = new EmbedBuilder()
         .setTitle("🎫 نظام التذاكر")
         .setDescription("اضغط على الزر أدناه لفتح تذكرة")
-        .setColor("#3498db")
+        .setColor("#f1645f")
         .setFooter({
           text: "خدمة العملاء",
           iconURL: client.user.displayAvatarURL(),
@@ -276,7 +276,7 @@ module.exports = (client) => {
               .setDescription(
                 "مرحباً بك! يرجى اختيار نوع التصميم من القائمة أدناه:"
               )
-              .setColor("#f1c40f")
+              .setColor("#f1645f")
               .setTimestamp();
 
             const productSelect = new ActionRowBuilder().addComponents(
@@ -312,7 +312,7 @@ module.exports = (client) => {
                   value: "عادةً ما نرد خلال 24 ساعة من فتح التذكرة",
                 }
               )
-              .setColor("#3498db")
+              .setColor("#f1645f")
               .setTimestamp();
           } else if (ticketType === "view_products") {
             welcomeEmbed = new EmbedBuilder()
@@ -320,7 +320,7 @@ module.exports = (client) => {
               .setDescription(
                 "مرحباً بك! يمكنك الاطلاع على منتجاتنا من خلال اختيار المنتج من القائمة أدناه:"
               )
-              .setColor("#2ecc71")
+              .setColor("#f1645f")
               .setTimestamp();
 
             const productSelect = new ActionRowBuilder().addComponents(
@@ -375,7 +375,7 @@ module.exports = (client) => {
           .setTitle(`معلومات عن ${selectedProduct}`)
           .setDescription(productData.description)
           .addFields({ name: "السعر", value: productData.price, inline: true })
-          .setColor("#e74c3c")
+          .setColor("#f1645f")
           .setTimestamp();
 
         if (productData.image) {
@@ -413,7 +413,7 @@ module.exports = (client) => {
           .setTitle(`${selectedProduct}`)
           .setDescription(productData.description)
           .addFields({ name: "السعر", value: productData.price, inline: true })
-          .setColor("#9b59b6")
+          .setColor("#f1645f")
           .setTimestamp();
 
         if (productData.image) {

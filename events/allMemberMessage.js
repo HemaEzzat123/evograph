@@ -35,7 +35,7 @@ module.exports = (client) => {
         });
 
         const embed = new EmbedBuilder()
-          .setColor("#00ff00")
+          .setColor("#f1465f")
           .setTitle("✅ قناة جديدة")
           .setDescription(`تم إنشاء قناة خاصة بنجاح: ${channel}`)
           .setTimestamp();
@@ -61,7 +61,7 @@ module.exports = (client) => {
       );
 
       const embedAnnounce = new EmbedBuilder()
-        .setColor("#ffcc00")
+        .setColor("#f1465f")
         .setTitle("📢 Announcement ")
         .setDescription(announcement || "📢 إعلان جديد!")
         .setFooter({
