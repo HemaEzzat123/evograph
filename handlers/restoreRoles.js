@@ -1,59 +1,70 @@
-const { Client, Events } = require("discord.js");
+const { Client, Events, GatewayIntentBits } = require("discord.js");
 const mongoose = require("mongoose");
 
-// بناء مخطط (Schema) لقاعدة البيانات
+// Database Schema for Role Backup
 const roleBackupSchema = new mongoose.Schema({
-  guildId: String, // ID السيرفر
-  roleId: String, // ID الدور
-  roleName: String, // اسم الدور
-  color: Number, // لون الدور
-  hoist: Boolean, // رفع الدور فوق الآخرين
-  position: Number, // موقع الدور
-  permissions: String, // صلاحيات الدور
-  memberIds: [String], // مصفوفة تحتوي على IDs الأعضاء الذين لديهم هذا الدور
-  icon: String, // أيقونة الدور
+  guildId: String,
+  roleId: String,
+  roleName: String,
+  color: Number,
+  hoist: Boolean,
+  position: Number,
+  permissions: String,
+  memberIds: [String],
+  icon: String,
 });
 
-// إنشاء نموذج (Model) باستخدام المخطط
 const RoleBackup = mongoose.model("RoleBackup", roleBackupSchema);
 
 module.exports = (client) => {
-  // تحديث النسخة الاحتياطية عند بدء تشغيل البوت
+  // Update backup when bot starts
   client.once(Events.ClientReady, async () => {
-    console.log("🤖 البوت جاهز!");
+    console.log("🤖 Bot is ready!");
     const guilds = client.guilds.cache;
-    guilds.forEach(async (guild) => {
-      await updateRoleBackup(guild);
-    });
+
+    // Process guilds sequentially to avoid overwhelming Discord's API
+    for (const guild of guilds.values()) {
+      try {
+        await updateRoleBackup(guild);
+      } catch (error) {
+        console.error(
+          `❌ Error updating backup for guild ${guild.name}:`,
+          error
+        );
+      }
+    }
   });
 
-  // تحديث النسخة الاحتياطية عند إضافة عضو جديد
+  // Update backup when a new member joins
   client.on(Events.GuildMemberAdd, async (member) => {
     await updateRoleBackup(member.guild);
   });
 
-  // استعادة الدور المحذوف
+  // Restore deleted role
   client.on(Events.GuildRoleDelete, async (role) => {
-    console.log(`❌ تم مسح الدور: ${role.name}`);
+    console.log(`❌ Role deleted: ${role.name}`);
     await restoreDeletedRole(role.guild, role);
   });
 
-  // دالة لتحديث النسخة الاحتياطية في MongoDB
+  // Function to update role backup in MongoDB
   async function updateRoleBackup(guild) {
     try {
-      console.log(`🔄 تحديث نسخة الأدوار الاحتياطية للسيرفر: ${guild.name}`);
+      console.log(`🔄 Updating role backup for server: ${guild.name}`);
 
-      // حذف السجلات القديمة لهذا السيرفر
+      // Increase the timeout and fetch members with a larger timeout
+      const members = await guild.members.fetch({
+        force: true, // Force fetch even if already cached
+        time: 120000, // Increase timeout to 120 seconds (2 minutes)
+      });
+
+      // Delete old records for this server
       await RoleBackup.deleteMany({ guildId: guild.id });
 
-      // جلب جميع الأعضاء في السيرفر
-      const members = await guild.members.fetch();
-
-      // تحضير بيانات الأدوار
+      // Prepare role data
       const rolesData = {};
-      members.forEach((member) => {
+      for (const [memberId, member] of members) {
         if (!member.user.bot) {
-          member.roles.cache.forEach((role) => {
+          for (const role of member.roles.cache.values()) {
             if (role.id !== guild.id) {
               if (!rolesData[role.id]) {
                 rolesData[role.id] = {
@@ -63,64 +74,70 @@ module.exports = (client) => {
                   color: role.color,
                   hoist: role.hoist,
                   position: role.position,
-                  permissions: role.permissions.bitfield.toString(), // تحويل الصلاحيات إلى سلسلة نصية
-                  memberIds: [], // مصفوفة تحتوي على IDs الأعضاء
-                  icon: role.icon || "", // حفظ أيقونة الدور إن وجدت
+                  permissions: role.permissions.bitfield.toString(),
+                  memberIds: [],
+                  icon: role.icon || "",
                 };
               }
-              rolesData[role.id].memberIds.push(member.id); // إضافة ID العضو إلى المصفوفة
+              rolesData[role.id].memberIds.push(memberId);
             }
-          });
+          }
         }
-      });
+      }
 
-      // إدراج البيانات الجديدة في قاعدة البيانات
-      await RoleBackup.insertMany(Object.values(rolesData));
-
-      console.log(`✅ تم تحديث نسخة الأدوار الاحتياطية للسيرفر: ${guild.name}`);
+      // Insert new data into database
+      if (Object.keys(rolesData).length > 0) {
+        await RoleBackup.insertMany(Object.values(rolesData));
+        console.log(`✅ Role backup updated for server: ${guild.name}`);
+      } else {
+        console.log(`⚠️ No role data found for server: ${guild.name}`);
+      }
     } catch (error) {
-      console.error("❌ خطأ أثناء تحديث النسخة الاحتياطية:", error);
+      console.error("❌ Error updating backup:", error);
+
+      // Additional error handling for specific scenarios
+      if (error.code === "GuildMembersTimeout") {
+        console.error(
+          "Timeout occurred while fetching members. Consider increasing timeout or processing in batches."
+        );
+      }
     }
   }
 
-  // دالة لإستعادة الدور المحذوف
+  // Function to restore a deleted role
   async function restoreDeletedRole(guild, deletedRole) {
     try {
       console.log(
-        `🔄 محاولة استعادة الدور المحذوف: ${deletedRole.name} (${deletedRole.id})`
+        `🔄 Attempting to restore deleted role: ${deletedRole.name} (${deletedRole.id})`
       );
 
-      // محاولة العثور على الدور باستخدام الـ ID
+      // Try to find role by ID
       let roleData = await RoleBackup.findOne({
         guildId: guild.id,
         roleId: deletedRole.id,
       });
 
-      // إذا لم يتم العثور عليه، البحث باستخدام الاسم
+      // If not found, try to find by name
       if (!roleData) {
-        console.log(
-          `⚠️ لم يتم العثور على الدور باستخدام ID، يتم البحث باستخدام الاسم...`
-        );
+        console.log(`⚠️ Role not found by ID, searching by name...`);
         roleData = await RoleBackup.findOne({
           guildId: guild.id,
-          roleName: deletedRole.name, // 🔍 البحث باستخدام اسم الدور
+          roleName: deletedRole.name,
         });
       }
 
-      // إذا لم يتم العثور عليه نهائيًا، إيقاف العملية
+      // If still not found, stop the process
       if (!roleData) {
-        console.log(
-          `❌ لم يتم العثور على النسخة الاحتياطية للدور "${deletedRole.name}".`
-        );
+        console.log(`❌ No backup found for role "${deletedRole.name}".`);
         return;
       }
 
-      // تحويل معرف الأيقونة إلى رابط Discord CDN
+      // Convert icon ID to Discord CDN URL
       const roleIcon = roleData.icon
         ? `https://cdn.discordapp.com/role-icons/${roleData.roleId}/${roleData.icon}.png`
         : null;
 
-      // إنشاء الدور
+      // Create the role
       const restoredRole = await guild.roles.create({
         name: roleData.roleName,
         color: roleData.color,
@@ -128,12 +145,12 @@ module.exports = (client) => {
         position: roleData.position,
         permissions: BigInt(roleData.permissions),
         icon: roleIcon,
-        reason: "إعادة الدور المحذوف من النسخة الاحتياطية",
+        reason: "Restoring deleted role from backup",
       });
 
-      console.log(`✅ تم استعادة الدور: ${restoredRole.name}`);
+      console.log(`✅ Role restored: ${restoredRole.name}`);
 
-      // إعادة تعيين الدور للأعضاء
+      // Reassign role to members
       const members = await guild.members.fetch();
       await Promise.all(
         roleData.memberIds.map(async (memberId) => {
@@ -141,10 +158,10 @@ module.exports = (client) => {
           if (member) {
             try {
               await member.roles.add(restoredRole);
-              console.log(`✅ تم إعادة الدور للعضو: ${member.user.tag}`);
+              console.log(`✅ Role reassigned to member: ${member.user.tag}`);
             } catch (err) {
               console.error(
-                `❌ لا يمكن إضافة الدور إلى العضو ${member.user.tag}:`,
+                `❌ Cannot add role to member ${member.user.tag}:`,
                 err
               );
             }
@@ -152,9 +169,9 @@ module.exports = (client) => {
         })
       );
 
-      console.log("✅ تم إعادة تعيين الدور للأعضاء.");
+      console.log("✅ Role reassigned to members.");
     } catch (error) {
-      console.error("❌ خطأ أثناء استعادة الدور:", error);
+      console.error("❌ Error restoring role:", error);
     }
   }
 };

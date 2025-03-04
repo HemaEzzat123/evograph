@@ -3,7 +3,6 @@ const fs = require("fs");
 const path = require("path");
 const express = require("express");
 const axios = require("axios");
-
 const {
   Client,
   Collection,
@@ -17,8 +16,15 @@ const {
   TextInputBuilder,
   TextInputStyle,
   ActionRowBuilder,
+  Partials,
 } = require("discord.js");
+const mongoose = require("mongoose");
 
+mongoose.connect(process.env.MONGODB_URI, {
+  serverSelectionTimeoutMS: 30000, // Increase timeout to 30 seconds
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -31,6 +37,7 @@ const client = new Client({
     GatewayIntentBits.GuildPresences,
     GatewayIntentBits.GuildVoiceStates,
   ],
+  partials: [Partials.Message, Partials.Channel, Partials.Reaction],
   shardCount: 1,
 });
 
@@ -293,6 +300,7 @@ client.on("interactionCreate", async (interaction) => {
         .then(async (modalInteraction) => {
           const description =
             modalInteraction.fields.getTextInputValue("embedDescription");
+          const guild = client.guilds.cache.get(process.env.GUILD_ID);
 
           const embed = new EmbedBuilder()
             .setTitle(title)
@@ -305,7 +313,7 @@ client.on("interactionCreate", async (interaction) => {
           if (footer)
             embed.setFooter({
               text: footer,
-              iconURL: interaction.user.displayAvatarURL(),
+              iconURL: guild?.iconURL({ dynamic: true }),
             });
 
           await channel.send({ embeds: [embed] });
@@ -376,6 +384,7 @@ require("./events/supportTickets")(client);
 require("./events/help")(client);
 require("./events/dmLogger")(client);
 require("./events/updateChannelName")(client);
+require("./events/feedback")(client);
 require("./commands/clearMessages")(client);
 require("./voice")(client);
 

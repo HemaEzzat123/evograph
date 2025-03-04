@@ -45,13 +45,19 @@ module.exports = (client) => {
       const channel = await client.channels.fetch(
         process.env.TICKET_CHANNEL_ID || "1341514865138995285"
       );
+      const guild = client.guilds.cache.get(process.env.GUILD_ID);
+
       const ticketEmbed = new EmbedBuilder()
         .setTitle("🎫 نظام التذاكر")
         .setDescription("اضغط على الزر أدناه لفتح تذكرة")
         .setColor("#f1645f")
+        .setImage(
+          "https://media.discordapp.net/attachments/1342144217111334912/1342155499751346237/9ba50bea6a418301.png?ex=67b89b37&is=67b749b7&hm=0f16b62b223ae17d8ce6d90126d27be10a1c16c7432d833a090c8500a50a42b9&=&format=webp&quality=lossless&width=1056&height=377"
+        )
+        .setThumbnail(guild?.iconURL({ dynamic: true }) || null)
         .setFooter({
-          text: "خدمة العملاء",
-          iconURL: client.user.displayAvatarURL(),
+          text: "EVO GRAPH - الإبداع يبدأ هنا!",
+          iconURL: guild?.iconURL({ dynamic: true }),
         });
 
       const button = new ActionRowBuilder().addComponents(

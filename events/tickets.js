@@ -302,6 +302,8 @@ module.exports = (client) => {
 
   client.on("ready", async () => {
     const ticketChannel = await client.channels.fetch("1338644980998344765");
+    const guild = client.guilds.cache.get(process.env.GUILD_ID);
+
     if (!ticketChannel) return;
 
     const menuEmbed = new EmbedBuilder()
@@ -310,9 +312,7 @@ module.exports = (client) => {
       .setImage(
         "https://media.discordapp.net/attachments/1342144217111334912/1342155499751346237/9ba50bea6a418301.png?ex=67b89b37&is=67b749b7&hm=0f16b62b223ae17d8ce6d90126d27be10a1c16c7432d833a090c8500a50a42b9&=&format=webp&quality=lossless&width=1056&height=377"
       )
-      .setThumbnail(
-        "https://cdn.discordapp.com/attachments/1024348162820935680/1341855371089674342/Screenshot_2025-02-12_143112.jpg?ex=67b82c72&is=67b6daf2&hm=ff042d67f2e4170d32ce015678c759cfbb9d394981d9136d54f4b60d8e9774ac&"
-      )
+      .setThumbnail(guild?.iconURL({ dynamic: true }) || null)
       .setDescription(
         `
         💠 ━━━━━━ ⭑ ━━━━━━ 💠  
@@ -327,7 +327,11 @@ module.exports = (client) => {
 💠 ━━━━━━ ⭑ ━━━━━━ 💠  
 
         `
-      );
+      )
+      .setFooter({
+        text: "EVO GRAPH - الإبداع يبدأ هنا!",
+        iconURL: guild?.iconURL({ dynamic: true }),
+      });
 
     const selectMenu = new StringSelectMenuBuilder()
       .setCustomId("ticket_menu")

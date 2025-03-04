@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { EmbedBuilder } = require("discord.js");
 
 module.exports = (client) => {
@@ -46,11 +47,17 @@ module.exports = (client) => {
         if (!verifyChannel || !verifyChannel.isTextBased()) {
           console.error(`❌ قناة التحقق غير صالحة.`);
         } else {
+          const guild = client.guilds.cache.get(process.env.GUILD_ID);
+
           await member.send({
             content: `👋 مرحبًا **${member.user.username}**, أهلاً بك في **${member.guild.name}**! 🎉\n\nيرجى التوجه إلى قناة <#${verifyChannelId}> لإكمال عملية التحقق.`,
             embeds: [
               new EmbedBuilder()
                 .setTitle("قوانين وقواعد السيرفر")
+                .setFooter({
+                  text: "EVO GRAPH - الإبداع يبدأ هنا!",
+                  iconURL: guild?.iconURL({ dynamic: true }),
+                })
                 .setDescription(
                   "📜 **القوانين:**\n" +
                     "1️⃣ احترام الجميع.\n" +
