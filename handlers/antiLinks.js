@@ -1,32 +1,6 @@
 module.exports = (client) => {
   const bannedLinks = [
-    "bit.ly",
-    "discord.gg",
-    "free-nitro.com",
-    "malicious-site.com",
-    "pornhub.com",
-    "free-nitro",
-    "fuck you",
-    "shit",
-    "fuck",
-    "bitch",
-    "cunt",
-    "asshole",
-    "nigger",
-    "nigga",
-    "niga",
-    "nig",
-    "a7a",
-    "احا",
     "steamcommunity.com/gift",
-    "discord.com/gift",
-    "discord.com/invite",
-    "discord.gg",
-    "كسمك",
-    "كسخت",
-    "كسكم",
-    "kosomk",
-
   ];
 
   client.on("messageCreate", (message) => {
