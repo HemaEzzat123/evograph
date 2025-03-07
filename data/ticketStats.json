@@ -1,12 +1,24 @@
 {
-  "totalTickets": 0,
-  "activeTickets": 0,
+  "totalTickets": 1,
+  "activeTickets": 1,
   "resolvedTickets": 0,
-  "ticketHistory": [],
+  "ticketHistory": [
+    {
+      "ticketId": "تصميم أخرى-1",
+      "userId": "700093890669183076",
+      "username": "hezzat",
+      "type": "تصميم أخرى",
+      "status": "active",
+      "createdAt": "2025-03-07T22:37:59.462Z",
+      "closedAt": null,
+      "channelId": "1347699834953666672",
+      "claimedBy": null
+    }
+  ],
   "categories": {
     "تصميم شعار": 0,
     "تصميم بكج": 0,
-    "تصميم أخرى": 0,
+    "تصميم أخرى": 1,
     "الدعم الفني": 0
   }
 }

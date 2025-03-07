@@ -57,7 +57,10 @@ module.exports = (client) => {
       "الدعم الفني": "1229478152884060270",
     };
 
-    const supportRoleId = "1341856671173181522";
+    // تعريف أدوار هامة للإشارة إليها في التذاكر
+    const supportRoleId = "1341856671173181522"; // رتبة الدعم الفني
+    const ownerRoleId = "905718994101764117"; // استبدل هذا بمعرف رتبة المالك
+
     if (
       interaction.isStringSelectMenu() &&
       interaction.customId === "ticket_menu"
@@ -117,6 +120,7 @@ module.exports = (client) => {
           { name: "🕒 وقت الإنشاء", value: new Date().toLocaleString("ar-SA") }
         )
         .setFooter({ text: "نظام التذاكر المتطور" });
+
       const getTicketPrefix = (selectedOption) => {
         switch (selectedOption) {
           case "الدعم الفني":
@@ -202,10 +206,17 @@ module.exports = (client) => {
         closeButton
       );
 
+      // إرسال الترحيب بالتذكرة
       await ticketChannel.send({
         embeds: [ticketEmbed],
         components: [buttonRow],
       });
+
+      // إشارة إلى الرتب الهامة (المالك وفريق الدعم)
+      await ticketChannel.send(
+        `🔔 تم فتح تذكرة جديدة بواسطة ${user}!\n` +
+          `<@&${supportRoleId}> <@&${ownerRoleId}> يرجى المساعدة في أقرب وقت ممكن.`
+      );
 
       // Set cooldown
       ticketCooldowns.set(user.id, Date.now() + COOLDOWN_TIME);
